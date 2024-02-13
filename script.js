@@ -3,7 +3,8 @@ var snake_list = [{ snake_x: 5, snake_y: 14 }];
 
 var x = 0,
   y = 1;
-let direction = "";
+let set_second = 0;
+let direction = "U";
 let before_direction = "";
 
 // --------------------------------------------------
@@ -28,14 +29,45 @@ function create_2d_array() {
 function play_game() {
   draw_snake();
   draw_friut();
+  second();
+  setMove();
 
   document.addEventListener("keydown", function (event) {
     define_arrow(event.keyCode);
-    console.log("Direction: " + direction);
-    isEat();
-    if (move) draw_snake();
-    document.getElementById("span-id").innerHTML = snake_list.length;
+    // isEat();
+    // if (move) draw_snake();
+    document.getElementById("score-id").innerHTML = snake_list.length;
   });
+}
+
+function second() {
+  const myTimeout = setTimeout(second, 1000);
+  document.getElementById("time-id").innerHTML = set_second += 1;
+}
+
+function setMove() {
+  const myTimeout = setTimeout(setMove, 500);
+
+  switch (direction) {
+    case "L":
+      // console.log("Left");
+      define_arrow(37);
+      break;
+    case "U":
+      // console.log("Up");
+      define_arrow(38);
+      break;
+    case "R":
+      // console.log("Right");
+      define_arrow(39);
+      break;
+    case "D":
+      // console.log("Down");
+      define_arrow(40);
+      break;
+  }
+  isEat();
+  draw_snake();
 }
 
 function isEat() {
@@ -52,6 +84,21 @@ function draw_friut() {
   b = Math.floor(Math.random(10) * 9);
   console.log("random: " + a + " " + b);
   tetris_array[a][b] = 2;
+}
+
+function gameOver(b) {
+  if (
+    !alert(
+      "Game Over,\nYour score: " +
+        snake_list.length +
+        ",\nTime: " +
+        set_second +
+        "sec,\nCrash: " +
+        b
+    )
+  ) {
+    window.location.reload();
+  }
 }
 
 function draw_snake() {
@@ -78,7 +125,7 @@ function draw_snake() {
         snake_list[0].snake_y == snake_list[i].snake_y
       ) {
         console.log("Body Crash");
-        alert("Game Over, crash body");
+        gameOver("body");
       }
     }
     tool++;
@@ -97,16 +144,16 @@ function check_wall(check_direction) {
   if (check_back(check_direction)) return true;
   switch (check_direction) {
     case "L":
-      if (snake_list[0].snake_x === 0) alert("Game Over, crash wall");
+      if (snake_list[0].snake_x === 0) gameOver("wall");
       break;
     case "R":
-      if (snake_list[0].snake_x === 9) alert("Game Over, crash wall");
+      if (snake_list[0].snake_x === 9) gameOver("wall");
       break;
     case "D":
-      if (snake_list[0].snake_y === 19) alert("Game Over, crash wall");
+      if (snake_list[0].snake_y === 19) gameOver("wall");
       break;
     case "U":
-      if (snake_list[0].snake_y === 0) alert("Game Over, crash wall");
+      if (snake_list[0].snake_y === 0) gameOver("wall");
       break;
     default:
       break;
