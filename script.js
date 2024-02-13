@@ -1,4 +1,5 @@
 var tetris_array = create_2d_array();
+let keyDown = [];
 var snake_list = [{ snake_x: 5, snake_y: 14 }];
 
 var x = 0,
@@ -32,19 +33,23 @@ function play_game() {
   setMove();
 
   document.addEventListener("keydown", function (event) {
-    define_arrow(event.keyCode);
-    // if (move) draw_snake();
-    document.getElementById("score-id").innerHTML = snake_list.length;
+    keyDown.push(event.keyCode);
+    console.log(keyDown);
+    console.log("lenght: " + keyDown[keyDown.length - 1]);
   });
 }
 
 function second() {
   const myTimeout = setTimeout(second, 1000);
   document.getElementById("time-id").innerHTML = set_second += 1;
+  document.getElementById("score-id").innerHTML = snake_list.length;
 }
 
 function setMove() {
   const myTimeout = setTimeout(setMove, 400);
+  // console.log("key: " + keyDown[keyDown.length - 1]);
+  define_arrow(keyDown[keyDown.length - 1]);
+  keyDown = [];
 
   switch (direction) {
     case "L":
@@ -214,7 +219,7 @@ function define_arrow(c) {
       console.log("Esc");
       break;
     default:
-      console.log("Default");
+      console.log("Noting pressed.");
       x = 0;
       y = 0;
       break;
