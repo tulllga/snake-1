@@ -77,8 +77,9 @@ function isEat() {
 function draw_friut() {
   a = Math.floor(Math.random(10) * 19);
   b = Math.floor(Math.random(10) * 9);
-  console.log("random: " + a + " " + b);
+  console.log("random: " + b + " " + a);
   tetris_array[a][b] = 2;
+  document.getElementById("orange_id").innerHTML = b + "*" + a;
 }
 
 function gameOver(b) {
