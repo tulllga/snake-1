@@ -27,14 +27,12 @@ function create_2d_array() {
 }
 
 function play_game() {
-  draw_snake();
   draw_friut();
   second();
   setMove();
 
   document.addEventListener("keydown", function (event) {
     define_arrow(event.keyCode);
-    // isEat();
     // if (move) draw_snake();
     document.getElementById("score-id").innerHTML = snake_list.length;
   });
@@ -46,28 +44,24 @@ function second() {
 }
 
 function setMove() {
-  const myTimeout = setTimeout(setMove, 500);
+  const myTimeout = setTimeout(setMove, 400);
 
   switch (direction) {
     case "L":
-      // console.log("Left");
       define_arrow(37);
       break;
     case "U":
-      // console.log("Up");
       define_arrow(38);
       break;
     case "R":
-      // console.log("Right");
       define_arrow(39);
       break;
     case "D":
-      // console.log("Down");
       define_arrow(40);
       break;
   }
   isEat();
-  draw_snake();
+  if (move) draw_snake();
 }
 
 function isEat() {
@@ -186,23 +180,31 @@ function check_back(check_direction) {
 function define_arrow(c) {
   switch (c) {
     case 37: // left
-      if (!check_wall("L")) x = -1;
-      else x = 0;
+      if (!check_wall("L")) {
+        x = -1;
+        console.log("Left");
+      } else x = 0;
       y = 0;
       break;
     case 38: // up
-      if (!check_wall("U")) y = -1;
-      else y = 0;
+      if (!check_wall("U")) {
+        y = -1;
+        console.log("Up");
+      } else y = 0;
       x = 0;
       break;
     case 39: // right
-      if (!check_wall("R")) x = 1;
-      else x = 0;
+      if (!check_wall("R")) {
+        x = 1;
+        console.log("Right");
+      } else x = 0;
       y = 0;
       break;
     case 40: // down
-      if (!check_wall("D")) y = 1;
-      else y = 0;
+      if (!check_wall("D")) {
+        y = 1;
+        console.log("Down");
+      } else y = 0;
       x = 0;
       break;
     case 32: //space
@@ -227,7 +229,7 @@ function draw_table(array) {
       if (array[i][j] == 1) {
         d[cell].style.backgroundColor = "yellow";
       } else if (array[i][j] == 2) {
-        d[cell].style.backgroundColor = "red";
+        d[cell].style.backgroundColor = "green";
       } else {
         d[cell].style.backgroundColor = "gray";
       }
