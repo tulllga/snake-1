@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Keydown Event Listener</title>
+  </head>
+  <body>
+    <p>Press any key and see the code below:</p>
+    <p id="code"></p>
+    <script>
+      const codeElement = document.getElementById('code');
+
+      document.addEventListener('keydown', function(event) {
+        codeElement.innerText = event.keyCode;
+      });
+    </script>
+  </body>
+</html>
