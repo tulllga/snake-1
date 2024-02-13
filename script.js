@@ -34,20 +34,17 @@ function play_game() {
 
   document.addEventListener("keydown", function (event) {
     keyDown.push(event.keyCode);
-    console.log(keyDown);
-    console.log("lenght: " + keyDown[keyDown.length - 1]);
   });
 }
 
 function second() {
   const myTimeout = setTimeout(second, 1000);
   document.getElementById("time-id").innerHTML = set_second += 1;
-  document.getElementById("score-id").innerHTML = snake_list.length;
+  document.getElementById("score-id").innerHTML = snake_list.length - 1;
 }
 
 function setMove() {
   const myTimeout = setTimeout(setMove, 400);
-  // console.log("key: " + keyDown[keyDown.length - 1]);
   define_arrow(keyDown[keyDown.length - 1]);
   keyDown = [];
 
@@ -66,15 +63,14 @@ function setMove() {
       break;
   }
   isEat();
-  if (move) draw_snake();
+  // if (move)
+  draw_snake();
 }
 
 function isEat() {
-  if (tetris_array[a][b] == 1) {
+  if (tetris_array[a][b] == 3) {
     snake_list.push({ snake_x: 0, snake_y: 0 });
-
     draw_friut();
-  } else if (tetris_array[a][b] == 2) {
   }
 }
 
@@ -113,7 +109,7 @@ function draw_snake() {
     if (tool == 0) {
       tetris_array[(snake_list[i].snake_y += y)][
         (snake_list[i].snake_x += x)
-      ] = 1;
+      ] = 3;
     } else {
       tetris_array[(snake_list[i].snake_y = before_list[i - 1].snake_y)][
         (snake_list[i].snake_x = before_list[i - 1].snake_x)
@@ -123,7 +119,7 @@ function draw_snake() {
         snake_list[0].snake_x == snake_list[i].snake_x &&
         snake_list[0].snake_y == snake_list[i].snake_y
       ) {
-        console.log("Body Crash");
+        //
         gameOver("body");
       }
     }
@@ -143,16 +139,33 @@ function check_wall(check_direction) {
   if (check_back(check_direction)) return true;
   switch (check_direction) {
     case "L":
-      if (snake_list[0].snake_x === 0) gameOver("wall");
+      if (snake_list[0].snake_x === 0) {
+        console.log(
+          "head: " + snake_list[0].snake_x + " " + snake_list[0].snake_y
+        );
+
+        tetris_array[snake_list[0].snake_y][snake_list[0].snake_x] = 4;
+        draw_table(tetris_array);
+
+        console.log("tetris area: " + tetris_array);
+
+        gameOver("wall");
+      }
       break;
     case "R":
-      if (snake_list[0].snake_x === 9) gameOver("wall");
+      if (snake_list[0].snake_x === 9) {
+        gameOver("wall");
+      }
       break;
     case "D":
-      if (snake_list[0].snake_y === 19) gameOver("wall");
+      if (snake_list[0].snake_y === 19) {
+        gameOver("wall");
+      }
       break;
     case "U":
-      if (snake_list[0].snake_y === 0) gameOver("wall");
+      if (snake_list[0].snake_y === 0) {
+        gameOver("wall");
+      }
       break;
     default:
       break;
@@ -164,21 +177,21 @@ function check_back(check_direction) {
     console.log("Empty");
     before_direction = check_direction;
   } else if (before_direction == "R" && check_direction == "L") {
-    move = false;
+    // move = false;
     return true;
   } else if (before_direction == "L" && check_direction == "R") {
-    move = false;
+    // move = false;
     return true;
   } else if (before_direction == "D" && check_direction == "U") {
-    move = false;
+    // move = false;
     return true;
   } else if (before_direction == "U" && check_direction == "D") {
-    move = false;
+    // move = false;
     return true;
   }
   before_direction = check_direction;
   direction = check_direction;
-  move = true;
+  // move = true;
   return false;
 }
 
@@ -219,7 +232,7 @@ function define_arrow(c) {
       console.log("Esc");
       break;
     default:
-      console.log("Noting pressed.");
+      // console.log("Noting pressed.");
       x = 0;
       y = 0;
       break;
@@ -232,9 +245,13 @@ function draw_table(array) {
   for (let i = 0; i < 20; i++) {
     for (let j = 0; j < 10; j++) {
       if (array[i][j] == 1) {
-        d[cell].style.backgroundColor = "yellow";
+        d[cell].style.backgroundColor = "#444";
       } else if (array[i][j] == 2) {
-        d[cell].style.backgroundColor = "green";
+        d[cell].style.backgroundColor = "orange";
+      } else if (array[i][j] == 3) {
+        d[cell].style.backgroundColor = "#333";
+      } else if (array[i][j] == 4) {
+        d[cell].style.backgroundColor = "red";
       } else {
         d[cell].style.backgroundColor = "gray";
       }
