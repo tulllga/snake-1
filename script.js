@@ -140,14 +140,14 @@ function check_wall(check_direction) {
   switch (check_direction) {
     case "L":
       if (snake_list[0].snake_x === 0) {
-        console.log(
-          "head: " + snake_list[0].snake_x + " " + snake_list[0].snake_y
-        );
+        // console.log(
+        //   "head: " + snake_list[0].snake_x + " " + snake_list[0].snake_y
+        // );
 
-        tetris_array[snake_list[0].snake_y][snake_list[0].snake_x] = 4;
-        draw_table(tetris_array);
+        // tetris_array[snake_list[0].snake_y][snake_list[0].snake_x] = 4;
+        // draw_table(tetris_array);
 
-        console.log("tetris area: " + tetris_array);
+        // console.log("tetris area: " + tetris_array);
 
         gameOver("wall");
       }
@@ -174,7 +174,6 @@ function check_wall(check_direction) {
 }
 function check_back(check_direction) {
   if (!before_direction) {
-    console.log("Empty");
     before_direction = check_direction;
   } else if (before_direction == "R" && check_direction == "L") {
     // move = false;
@@ -200,36 +199,36 @@ function define_arrow(c) {
     case 37: // left
       if (!check_wall("L")) {
         x = -1;
-        console.log("Left");
+        // console.log("Left");
       } else x = 0;
       y = 0;
       break;
     case 38: // up
       if (!check_wall("U")) {
         y = -1;
-        console.log("Up");
+        // console.log("Up");
       } else y = 0;
       x = 0;
       break;
     case 39: // right
       if (!check_wall("R")) {
         x = 1;
-        console.log("Right");
+        // console.log("Right");
       } else x = 0;
       y = 0;
       break;
     case 40: // down
       if (!check_wall("D")) {
         y = 1;
-        console.log("Down");
+        // console.log("Down");
       } else y = 0;
       x = 0;
       break;
     case 32: //space
-      console.log("Space");
+      // console.log("Space");
       break;
     case 192: //esc: pause
-      console.log("Esc");
+      // console.log("Esc");
       break;
     default:
       // console.log("Noting pressed.");
@@ -249,7 +248,7 @@ function draw_table(array) {
       } else if (array[i][j] == 2) {
         d[cell].style.backgroundColor = "orange";
       } else if (array[i][j] == 3) {
-        d[cell].style.backgroundColor = "#333";
+        d[cell].style.backgroundColor = "#222";
       } else if (array[i][j] == 4) {
         d[cell].style.backgroundColor = "red";
       } else {
