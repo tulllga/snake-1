@@ -4,6 +4,7 @@ var snake_list = [{ snake_x: 5, snake_y: 14 }];
 
 var x = 0,
   y = 1;
+
 let set_second = 0;
 let direction = "U";
 let before_direction = "";
@@ -38,13 +39,13 @@ function play_game() {
 }
 
 function second() {
-  const myTimeout = setTimeout(second, 1000);
+  const tetris_time = setTimeout(second, 1000);
   document.getElementById("time-id").innerHTML = set_second += 1;
   document.getElementById("score-id").innerHTML = snake_list.length - 1;
 }
 
 function setMove() {
-  const myTimeout = setTimeout(setMove, 400);
+  const tetris_speed = setTimeout(setMove, 400);
   define_arrow(keyDown[keyDown.length - 1]);
   keyDown = [];
 
@@ -78,28 +79,27 @@ function draw_friut() {
   a = Math.floor(Math.random(10) * 19);
   b = Math.floor(Math.random(10) * 9);
   console.log("random: " + b + " " + a);
-  tetris_array[a][b] = 2;
-  document.getElementById("orange_id").innerHTML = b + "*" + a;
+  if (tetris_array[a][b] == 0) tetris_array[a][b] = 2;
+  else draw_friut();
+  document.getElementById("orange_id").innerHTML = b + " x " + a;
 }
 
-function gameOver(b) {
-  if (
-    !alert(
-      "Game Over,\nYour score: " +
-        snake_list.length +
-        ",\nTime: " +
-        set_second +
-        "sec,\nCrash: " +
-        b
-    )
-  ) {
-    window.location.reload();
-  }
+function gameOver(reason) {
+  console.log("Tetris array: " + tetris_array);
+  alert(
+    "Game Over,\nYour score: " +
+      snake_list.length +
+      ",\nTime: " +
+      set_second +
+      "sec,\nCrash: " +
+      reason
+  );
+
+  window.location.reload();
 }
 
 function draw_snake() {
-  erase_array_value_1();
-  let tool = 0;
+  erase_tetris_array();
 
   let before_list = snake_list.map(({ snake_x, snake_y }) => ({
     snake_x,
@@ -107,7 +107,7 @@ function draw_snake() {
   }));
 
   for (i = 0; i < snake_list.length; i++) {
-    if (tool == 0) {
+    if (i == 0) {
       tetris_array[(snake_list[i].snake_y += y)][
         (snake_list[i].snake_x += x)
       ] = 3;
@@ -120,17 +120,14 @@ function draw_snake() {
         snake_list[0].snake_x == snake_list[i].snake_x &&
         snake_list[0].snake_y == snake_list[i].snake_y
       ) {
-        //
         gameOver("body");
       }
     }
-    tool++;
   }
-
   draw_table(tetris_array);
 }
 
-function erase_array_value_1() {
+function erase_tetris_array() {
   for (i = 0; i < snake_list.length; i++) {
     tetris_array[snake_list[i].snake_y][snake_list[i].snake_x] = 0;
   }
@@ -226,7 +223,6 @@ function define_arrow(c) {
       x = 0;
       break;
     case 32: //space
-      // console.log("Space");
       break;
     case 192: //esc: pause
       // console.log("Esc");
