@@ -4,7 +4,8 @@ var snake_list = [{ snake_x: 5, snake_y: 14 }];
 
 var x = 0,
   y = 1;
-
+let isPause = false;
+let tetris_speed;
 let set_second = 0;
 let direction = "U";
 let before_direction = "";
@@ -29,6 +30,7 @@ function create_2d_array() {
 }
 
 function play_game() {
+  document.getElementById("pause-id").innerHTML = "GO GO";
   draw_friut();
   second();
   setMove();
@@ -40,32 +42,38 @@ function play_game() {
 
 function second() {
   const tetris_time = setTimeout(second, 1000);
-  document.getElementById("time-id").innerHTML = set_second += 1;
+  if (!isPause) document.getElementById("time-id").innerHTML = set_second += 1;
   document.getElementById("score-id").innerHTML = snake_list.length - 1;
 }
 
 function setMove() {
-  const tetris_speed = setTimeout(setMove, 400);
-  define_arrow(keyDown[keyDown.length - 1]);
-  keyDown = [];
+  if (!isPause) {
+    define_arrow(keyDown[keyDown.length - 1]);
+    keyDown = [];
 
-  switch (direction) {
-    case "L":
-      define_arrow(37);
-      break;
-    case "U":
-      define_arrow(38);
-      break;
-    case "R":
-      define_arrow(39);
-      break;
-    case "D":
-      define_arrow(40);
-      break;
+    switch (direction) {
+      case "L":
+        define_arrow(37);
+        break;
+      case "U":
+        define_arrow(38);
+        break;
+      case "R":
+        define_arrow(39);
+        break;
+      case "D":
+        define_arrow(40);
+        break;
+    }
+    isEat();
+    draw_snake();
+  } else {
+    // console.log(keyDown);
+    define_arrow(keyDown[keyDown.length - 1]);
+    keyDown = [];
   }
-  isEat();
-  // if (move)
-  draw_snake();
+  keyDown = [];
+  const tetris_speed = setTimeout(setMove, 400);
 }
 
 function isEat() {
@@ -81,7 +89,7 @@ function draw_friut() {
   console.log("random: " + b + " " + a);
   if (tetris_array[a][b] == 0) tetris_array[a][b] = 2;
   else draw_friut();
-  document.getElementById("orange_id").innerHTML = b + " x " + a;
+  document.getElementById("orange_id").innerHTML = b + 1 + " x " + (a + 1);
 }
 
 function gameOver(reason) {
@@ -226,6 +234,15 @@ function define_arrow(c) {
       break;
     case 192: //esc: pause
       // console.log("Esc");
+      if (!isPause) {
+        // console.log("true--");
+        document.getElementById("pause-id").innerHTML = "(PAUSE)";
+        isPause = true;
+      } else {
+        // console.log("false--");
+        document.getElementById("pause-id").innerHTML = "(GO GO)";
+        isPause = false;
+      }
       break;
     default:
       // console.log("Noting pressed.");

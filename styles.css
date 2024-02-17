@@ -32,13 +32,13 @@ td {
   padding: 10px;
 }
 
-#next_shape {
+/* #next_shape {
   position: relative;
   background-color: gray;
   border: 1px solid white;
   width: 110px;
   height: 110px;
-}
+} */
 
 #start {
   animation: blink 1s steps(2, start) infinite;
